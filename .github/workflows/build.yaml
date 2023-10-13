@@ -1,0 +1,46 @@
+#name: Node.js CI
+#
+#on:
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
+#
+#jobs:
+#  build:
+#
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout source code
+#        uses: actions/checkout@v3
+#
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-region: ap-northeast-1
+#
+#      - name: Install npm package
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: '18.x'
+#      - run: npm ci
+#      - run: npm i -g @aws-amplify/cli
+#
+#      - name: Amplify Login
+#        run: |
+#          amplify configure sdgenfrontend
+#          amplify pull --appId d4gtqjdg9cu8v --envName dev --yes
+#
+#      - name: Build
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: '18.x'
+#      - run: npm run build
+#
+#      - name: S3 Push
+#        id: image-info
+#        run: |
+#          aws s3 ls
